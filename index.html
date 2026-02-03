@@ -1,1 +1,29 @@
-aaaaaaaaaaaaaaaa
+ <!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8" />
+  <title>PK Voice AI</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    button { margin: 5px; padding: 10px; }
+    #reply { margin-top: 20px; font-weight: bold; }
+  </style>
+</head>
+<body>
+
+  <h2>🎤 PK Voice AI</h2>
+
+  <!-- Text input -->
+  <input id="textInput" placeholder="सवाल लिखो" />
+  <button onclick="askText()">Ask</button>
+
+  <br><br>
+
+  <!-- Mic -->
+  <button onclick="startMic()">🎤 बोलकर पूछो</button>
+
+  <div id="reply"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
