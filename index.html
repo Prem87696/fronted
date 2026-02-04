@@ -1,29 +1,32 @@
- <!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
+  <meta charset="utf-8"/>
   <title>PK Voice AI</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <style>
-    body { font-family: Arial; padding: 20px; }
-    button { margin: 5px; padding: 10px; }
-    #reply { margin-top: 20px; font-weight: bold; }
+    body{font-family:system-ui;background:#0f1220;color:#fff;margin:0;padding:16px}
+    .box{max-width:520px;margin:auto}
+    input,button{width:100%;padding:12px;margin:6px 0;border-radius:8px;border:0}
+    button{background:#6c5ce7;color:#fff;font-weight:600}
+    .row{display:flex;gap:8px}
+    .row button{flex:1}
+    #log{background:#161a3a;padding:12px;border-radius:8px;min-height:60px}
   </style>
 </head>
 <body>
+  <div class="box">
+    <h2>🎤 PK Voice AI</h2>
 
-  <h2>🎤 PK Voice AI</h2>
+    <input id="txt" placeholder="यहाँ लिखो या mic दबाओ…"/>
+    <div class="row">
+      <button onclick="ask()">Ask</button>
+      <button onclick="mic()">🎙️ Mic</button>
+    </div>
 
-  <!-- Text input -->
-  <input id="textInput" placeholder="सवाल लिखो" />
-  <button onclick="askText()">Ask</button>
+    <div id="log"></div>
+  </div>
 
-  <br><br>
-
-  <!-- Mic -->
-  <button onclick="startMic()">🎤 बोलकर पूछो</button>
-
-  <div id="reply"></div>
-
-  <script src="script.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
