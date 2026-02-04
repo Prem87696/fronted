@@ -1,51 +1,40 @@
- const API_URL = "https://pk-voice-ai-production-d933.up.railway.app/api/ai";
+const API = "pk-voice-ai-production-940b.up.railway.app/api/ai"; // Railway से copy किया हुआ exact domain
 
-// 👉 Text se sawal
-function askText() {
-  const text = document.getElementById("textInput").value;
-  sendQuestion(text);
+function speak(text){
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "hi-IN"; // Hindi
+  speechSynthesis.speak(u);
 }
 
-// 👉 Mic se sawal
-function startMic() {
-  const SpeechRecognition =
-    window.SpeechRecognition || window.webkitSpeechRecognition;
+async function ask(){
+  const text = document.getElementById("txt").value.trim();
+  if(!text) return;
+  document.getElementById("log").innerText = "Thinking…";
 
-  if (!SpeechRecognition) {
-    alert("Mic supported nahi hai");
-    return;
-  }
-
-  const recognition = new SpeechRecognition();
-  recognition.lang = "hi-IN";
-  recognition.start();
-
-  recognition.onresult = (event) => {
-    const spokenText = event.results[0][0].transcript;
-    document.getElementById("textInput").value = spokenText;
-    sendQuestion(spokenText);
-  };
-}
-
-// 👉 Backend ko question bhejna
-function sendQuestion(text) {
-  document.getElementById("reply").innerText = "Soch raha hoon...";
-
-  fetch(API_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ text })
-  })
-    .then((r) => r.json())
-    .then((d) => {
-      document.getElementById("reply").innerText = d.reply;
-      speak(d.reply);
+  try{
+    const r = await fetch(API,{
+      method:"POST",
+      headers:{ "Content-Type":"application/json" },
+      body: JSON.stringify({ text })
     });
+    const d = await r.json();
+    document.getElementById("log").innerText = d.reply || "No reply";
+    speak(d.reply || "");
+  }catch(e){
+    document.getElementById("log").innerText = "Error: " + e.message;
+  }
 }
 
-// 👉 AI ka jawab bolkar sunana
-function speak(text) {
-  const speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "hi-IN";
-  window.speechSynthesis.speak(speech);
+// 🎤 Mic (Speech-to-Text)
+function mic(){
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if(!SR){ alert("Speech Recognition not supported"); return; }
+  const rec = new SR();
+  rec.lang = "hi-IN";
+  rec.onresult = e=>{
+    const said = e.results[0][0].transcript;
+    document.getElementById("txt").value = said;
+    ask();
+  };
+  rec.start();
 }
